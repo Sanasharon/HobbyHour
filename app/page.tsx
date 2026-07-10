@@ -118,7 +118,6 @@ export default function Home() {
         .wisp-font { font-family: 'Playfair Display', serif; }
         .magic-glow { text-shadow: 0 0 10px rgba(216, 180, 254, 0.5); }
         
-        /* Fade animation for smoother screen transitions */
         .fade-in { animation: fadeIn 0.4s ease-in-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
@@ -196,8 +195,6 @@ export default function Home() {
       )}
 
       <div className="w-full max-w-4xl flex flex-col z-10 h-full flex-1">
-        
-        {/* HEADER */}
         <header 
           className="mb-4 border-b border-purple-500/10 pb-4 flex items-center justify-between relative translate-smooth select-none"
           style={{ transform: `translate(${transforms.title.x}px, ${transforms.title.y}px)` }}
@@ -215,7 +212,6 @@ export default function Home() {
             {currentView !== "landing" ? (
               <button 
                 onClick={handleBackAction}
-                // Increased padding for better mobile tap accessibility
                 className="pretty-back-btn wisp-font flex items-center gap-1.5 px-5 py-2.5 rounded-full text-xs font-medium text-purple-200 active:scale-95 outline-none focus:outline-none"
               >
                 <span>✨</span> <span>Go Back</span>
@@ -232,7 +228,6 @@ export default function Home() {
           </div>
         </header>
 
-        {/* WRAP VIEWS IN FADE-IN CONTAINER */}
         <div className="fade-in flex-1 flex flex-col">
           {currentView === "landing" && (
             <div className="flex-1 flex flex-col md:flex-row items-center justify-center gap-8 py-4">
@@ -257,7 +252,46 @@ export default function Home() {
               <button onClick={() => navigateTo("chat")} className="absolute top-4 right-4 w-16 h-16 sm:w-20 sm:h-20 cursor-pointer select-none z-30 animate-bounce group transition-all active:scale-95 outline-none focus:outline-none">
                 <img src="/cat-companion.png" alt="Companion Cat" className="w-full h-full object-contain filter drop-shadow-[0_0_10px_rgba(168,85,247,0.6)] group-hover:drop-shadow-[0_0_18px_rgba(244,114,182,0.8)]" />
               </button>
-              {/* ... (rest of wheel component) */}
+
+              <h2 className="wisp-font text-3xl font-semibold text-pink-200 mb-2">Fate's Roulette</h2>
+              
+              <div 
+                className={`w-48 h-48 sm:w-64 sm:h-64 rounded-full border-8 border-purple-900 flex items-center justify-center relative overflow-hidden shadow-[0_0_50px_rgba(168,85,247,0.3)] ${wheelSpinning ? 'spinning-wheel' : ''}`}
+                style={{ 
+                  background: `conic-gradient(
+                    #7e22ce 0deg 72deg, 
+                    #c026d3 72deg 144deg, 
+                    #8b5cf6 144deg 216deg, 
+                    #4f46e5 216deg 288deg, 
+                    #a855f7 288deg 360deg
+                  )` 
+                }}
+              >
+                <div className="w-8 h-8 bg-yellow-400 rounded-full border-4 border-purple-950 z-10 shadow-lg"></div>
+                <div className="absolute inset-0 border-8 border-purple-900 rounded-full opacity-30"></div>
+              </div>
+
+              <button 
+                onClick={spinFatesWheel}
+                disabled={wheelSpinning}
+                className="px-8 py-3 bg-purple-600 hover:bg-purple-500 rounded-full font-semibold transition-all disabled:opacity-50"
+              >
+                {wheelSpinning ? "Spinning..." : "Spin the Wheel"}
+              </button>
+
+              {wheelResult && (
+                <div className="mt-4 p-4 bg-purple-900/40 rounded-xl border border-purple-400/30 animate-pulse">
+                  <p className="text-lg font-medium text-white mb-3">{wheelResult}</p>
+                  <a 
+                    href={getYouTubeLink(wheelResult)} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="text-pink-300 underline hover:text-pink-100"
+                  >
+                    Watch Tutorial
+                  </a>
+                </div>
+              )}
             </div>
           )}
         </div>
